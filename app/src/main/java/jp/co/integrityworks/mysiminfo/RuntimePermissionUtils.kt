@@ -34,7 +34,7 @@ class RuntimePermissionUtils {
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
             val permission = arguments?.getString(ARG_PERMISSION_NAME)
-            val dialogBuilder = AlertDialog.Builder(activity!!)
+            val dialogBuilder = AlertDialog.Builder(requireActivity())
                     .setMessage(permission!! + "の権限がないので、アプリ情報の「許可」から設定してください")
                     .setPositiveButton("アプリ情報") { _, _ ->
                         dismiss()
