@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.provider.Settings
+import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
 
 class TelViewModel : ViewModel() {
     private val _line1Number = MutableLiveData("")
@@ -34,9 +36,15 @@ class TelViewModel : ViewModel() {
     fun initParameters(context: Context) {
         //端末情報取得クラス:TelephonyManager生成
         val telMgr = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-
+        val telephonyManager =
+            context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val subscriptionManager = context
+            .getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+        for (subscriptionInfo in subscriptionManager.activeSubscriptionInfoList) {
+            val subscriptionId =
+                telephonyManager.createForSubscriptionId(subscriptionInfo.subscriptionId)
+        }
         var hasC = telMgr.hasCarrierPrivileges()
-
         //電話番号
         _line1Number.value = telMgr.line1Number
         //SIM国別コード
