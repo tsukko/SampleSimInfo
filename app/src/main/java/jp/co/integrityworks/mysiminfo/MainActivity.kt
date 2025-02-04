@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
         val banner = AdView(this)
         banner.setAdSize(AdSize.MEDIUM_RECTANGLE)
-        banner.adUnitId = getString(R.string.admob_banner_unit_id)
+        banner.adUnitId = getString(R.string.ad_unit_id)
         banner.loadAd(AdRequest.Builder().build())
 
         // ネイティブ広告の初期化
@@ -57,7 +57,6 @@ class MainActivity : ComponentActivity() {
         // 広告の解放
         (nativeAdLayoutBinding?.root as? NativeAdView)?.destroy()
     }
-
 
     /**
      * ネイティブ広告の初期化

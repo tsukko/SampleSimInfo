@@ -1,12 +1,14 @@
 package jp.co.integrityworks.mysiminfo.ui.home
 
 
+import android.Manifest
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -26,12 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
+import jp.co.integrityworks.mysiminfo.BuildConfig
 import jp.co.integrityworks.mysiminfo.R
 import jp.co.integrityworks.mysiminfo.util.RuntimePermissionAlertDialog
-import android.Manifest
-import jp.co.integrityworks.mysiminfo.BuildConfig
 
 /**
  * メイン画面のコンポーザブル
@@ -56,11 +61,11 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         if (ContextCompat.checkSelfPermission(
                 context,
-                Manifest.permission.READ_SMS
+                Manifest.permission.READ_PHONE_STATE
             )
             != PackageManager.PERMISSION_GRANTED
         ) {
-            permissionLauncher.launch(Manifest.permission.READ_SMS)
+            permissionLauncher.launch(Manifest.permission.READ_PHONE_STATE)
         } else {
             hasPermission = true
         }
@@ -124,19 +129,23 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                val context = LocalContext.current
                 // AdMobのAdViewをAndroidViewでラップして表示
-//                AndroidView(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(50.dp),
-//                    factory = { ctx ->
-//                        AdView(ctx).apply {
-//                            adSize = AdSize.SMART_BANNER
-//                            adUnitId = ctx.getString(R.string.ad_unit_id)
-//                            loadAd(AdRequest.Builder().build())
-//                        }
-//                    }
-//                )
+                AndroidView(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp), // ✅ 高さを適切に設定（後で動的サイズに変更可能）
+                    factory = { ctx ->
+                        AdView(ctx).apply {
+                            // ✅ AdView の設定
+                            setAdSize(AdSize.BANNER) // ※ `Adaptive Banner` を使う場合は後述
+                            adUnitId = ctx.getString(R.string.ad_unit_id)
+
+                            // ✅ 広告をロード
+                            loadAd(AdRequest.Builder().build())
+                        }
+                    }
+                )
             }
         }
     )
