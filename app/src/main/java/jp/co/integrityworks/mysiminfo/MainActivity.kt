@@ -21,7 +21,7 @@ import jp.co.integrityworks.mysiminfo.ui.theme.AdMobWithComposeSampleAppTheme
 
 class MainActivity : ComponentActivity() {
 
-    var nativeAdLayoutBinding: NativeAdLayoutBinding? = null
+    private var nativeAdLayoutBinding: NativeAdLayoutBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

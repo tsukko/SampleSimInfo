@@ -6,7 +6,7 @@ import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,15 +27,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import jp.co.integrityworks.mysiminfo.BuildConfig
 import jp.co.integrityworks.mysiminfo.R
+import jp.co.integrityworks.mysiminfo.ui.theme.AdMobWithComposeSampleAppTheme
 import jp.co.integrityworks.mysiminfo.util.RuntimePermissionAlertDialog
 
 /**
@@ -82,71 +85,26 @@ fun HomeScreen(
                 )
             })
         },
-        content = { paddingValues ->
-            Column(
+        bottomBar = {
+            // AdMobのAdViewをAndroidViewでラップして表示
+            AndroidView(
                 modifier = Modifier
-                    .padding(paddingValues)
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                InfoItem(
-                    title = stringResource(id = R.string.phoneNumberLabel),
-                    data = viewModel.line1Number
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.simCountryIsoLabel),
-                    data = viewModel.simCountryIso
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.simSerialNumberLabel),
-                    data = viewModel.simSerialNumber
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.deviceIdLabel),
-                    data = viewModel.deviceId
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.androidIdLabel),
-                    data = viewModel.androidId
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.simOperatorLabel),
-                    data = viewModel.simOperator
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.simOperatorNameLabel),
-                    data = viewModel.simOperatorName
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.simStateLabel),
-                    data = viewModel.simState
-                )
-                InfoItem(
-                    title = stringResource(id = R.string.voiceMailNumberLabel),
-                    data = viewModel.voiceMailNumber
-                )
+                    .fillMaxWidth()
+                    .height(70.dp), // ✅ 高さを適切に設定（後で動的サイズに変更可能）
+                factory = { ctx ->
+                    AdView(ctx).apply {
+                        // ✅ AdView の設定
+                        setAdSize(AdSize.BANNER) // ※ `Adaptive Banner` を使う場合は後述
+                        adUnitId = ctx.getString(R.string.ad_unit_id)
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                val context = LocalContext.current
-                // AdMobのAdViewをAndroidViewでラップして表示
-                AndroidView(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp), // ✅ 高さを適切に設定（後で動的サイズに変更可能）
-                    factory = { ctx ->
-                        AdView(ctx).apply {
-                            // ✅ AdView の設定
-                            setAdSize(AdSize.BANNER) // ※ `Adaptive Banner` を使う場合は後述
-                            adUnitId = ctx.getString(R.string.ad_unit_id)
-
-                            // ✅ 広告をロード
-                            loadAd(AdRequest.Builder().build())
-                        }
+                        // ✅ 広告をロード
+                        loadAd(AdRequest.Builder().build())
                     }
-                )
-            }
+                }
+            )
+        },
+        content = { paddingValues ->
+            BodyCompose(paddingValues = paddingValues, viewModel = viewModel)
         }
     )
 
@@ -166,5 +124,64 @@ fun InfoItem(title: String, data: String) {
     Column(modifier = Modifier.padding(vertical = 8.dp)) {
         Text(text = title, style = MaterialTheme.typography.titleSmall)
         Text(text = data, style = MaterialTheme.typography.bodyMedium)
+    }
+}
+
+@Composable
+fun BodyCompose(
+    paddingValues: PaddingValues,
+    viewModel: HomeViewModel
+) {
+    Column(
+        modifier = Modifier
+            .padding(paddingValues)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        InfoItem(
+            title = stringResource(id = R.string.phoneNumberLabel),
+            data = viewModel.line1Number
+        )
+        InfoItem(
+            title = stringResource(id = R.string.simCountryIsoLabel),
+            data = viewModel.simCountryIso
+        )
+        InfoItem(
+            title = stringResource(id = R.string.simSerialNumberLabel),
+            data = viewModel.simSerialNumber
+        )
+        InfoItem(
+            title = stringResource(id = R.string.deviceIdLabel),
+            data = viewModel.deviceId
+        )
+        InfoItem(
+            title = stringResource(id = R.string.androidIdLabel),
+            data = viewModel.androidId
+        )
+        InfoItem(
+            title = stringResource(id = R.string.simOperatorLabel),
+            data = viewModel.simOperator
+        )
+        InfoItem(
+            title = stringResource(id = R.string.simOperatorNameLabel),
+            data = viewModel.simOperatorName
+        )
+        InfoItem(
+            title = stringResource(id = R.string.simStateLabel),
+            data = viewModel.simState
+        )
+        InfoItem(
+            title = stringResource(id = R.string.voiceMailNumberLabel),
+            data = viewModel.voiceMailNumber
+        )
+    }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    AdMobWithComposeSampleAppTheme {
+        HomeScreen(navController = rememberNavController(), viewModel = HomeViewModel())
     }
 }
