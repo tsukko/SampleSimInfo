@@ -16,8 +16,12 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.nativead.NativeAdView
+import jp.co.integrityworks.mysiminfo.databinding.NativeAdLayoutBinding
+import jp.co.integrityworks.mysiminfo.ui.theme.AdMobWithComposeSampleAppTheme
 
 class MainActivity : ComponentActivity() {
+
+    var nativeAdLayoutBinding: NativeAdLayoutBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,6 +58,7 @@ class MainActivity : ComponentActivity() {
         (nativeAdLayoutBinding?.root as? NativeAdView)?.destroy()
     }
 
+
     /**
      * ネイティブ広告の初期化
      */
@@ -80,6 +85,5 @@ class MainActivity : ComponentActivity() {
                 nativeAdView.setNativeAd(ad)
             }.build().loadAd(AdRequest.Builder().build())
     }
-
 }
 
