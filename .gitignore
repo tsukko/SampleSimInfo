@@ -5,7 +5,7 @@ gradle.properties
 gradlew.bat
 .gradle/
 .idea/
-gradle/
+gradle/wrapper/gradle-wrapper.jar
 app/build/
 build/
 *.properties

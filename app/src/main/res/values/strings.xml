@@ -10,4 +10,7 @@
     <string name="simOperatorLabel">MCC+MNC</string>
     <string name="simOperatorNameLabel">サービスプロバイダ名</string>
     <string name="simStateLabel">SIM状態</string>
+
+    <string name="admob_banner_unit_id">dummy</string>
+    <string name="admob_native_unit_id">dummy</string>
 </resources>

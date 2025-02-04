@@ -12,9 +12,20 @@ import jp.co.integrityworks.mysiminfo.ui.home.HomeScreen
 import jp.co.integrityworks.mysiminfo.ui.home.HomeViewModel
 
 @Composable
-fun NavigationSample() {
-    val navController = rememberNavController()
-    NavHost(navController, startDestination = "home") {
+fun NavigationHost() {
+    modifier: Modifier = Modifier,
+    val navController = rememberNavController(),
+    // 使用するバナー広告
+    // リストのスクロール量が変更して表示非表示が切り替わった場合に毎回loadAdを呼んだりしないように
+    // Activityが作成された時に作って、以降はそれを使いまわす
+    banner: AdView,
+    nativeAdView: NativeAdView,
+    startDestination: String = Top.route,
+    NavHost(
+        modifier = modifier,
+        navController, startDestination = "home"
+
+    ) {
 //        composable("main") {
 //            HomeScreen(navController)
 //        }
