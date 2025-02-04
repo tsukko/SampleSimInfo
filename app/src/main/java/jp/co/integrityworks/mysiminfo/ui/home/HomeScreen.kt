@@ -56,11 +56,11 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         if (ContextCompat.checkSelfPermission(
                 context,
-                Manifest.permission.CAMERA
+                Manifest.permission.READ_SMS
             )
             != PackageManager.PERMISSION_GRANTED
         ) {
-            permissionLauncher.launch(Manifest.permission.CAMERA)
+            permissionLauncher.launch(Manifest.permission.READ_SMS)
         } else {
             hasPermission = true
         }

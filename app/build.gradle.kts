@@ -110,7 +110,6 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.accompanist.permissions)
     implementation(libs.play.services.ads)
-    implementation(libs.ads.mobile.sdk)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
