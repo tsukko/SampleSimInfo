@@ -31,14 +31,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import jp.co.integrityworks.mysiminfo.BuildConfig
 import jp.co.integrityworks.mysiminfo.R
-import jp.co.integrityworks.mysiminfo.ui.theme.AdMobWithComposeSampleAppTheme
+import jp.co.integrityworks.mysiminfo.ui.theme.MyAppTheme
 import jp.co.integrityworks.mysiminfo.util.RuntimePermissionAlertDialog
 
 /**
@@ -47,7 +45,6 @@ import jp.co.integrityworks.mysiminfo.util.RuntimePermissionAlertDialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
     viewModel: HomeViewModel
 ) {
     val context = LocalContext.current
@@ -181,7 +178,7 @@ fun BodyCompose(
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    AdMobWithComposeSampleAppTheme {
-        HomeScreen(navController = rememberNavController(), viewModel = HomeViewModel())
+    MyAppTheme {
+        HomeScreen(viewModel = HomeViewModel())
     }
 }

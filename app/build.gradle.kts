@@ -83,7 +83,6 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
-        dataBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
@@ -99,7 +98,6 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.material3)
-    implementation(libs.play.services.ads)
     implementation(libs.androidx.runtime.android)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.compose.foundation)
@@ -112,8 +110,6 @@ dependencies {
     implementation(libs.play.services.ads)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
-
-    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

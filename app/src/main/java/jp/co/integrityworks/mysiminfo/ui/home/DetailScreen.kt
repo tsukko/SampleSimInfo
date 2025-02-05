@@ -15,9 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun DetailScreen(navController: NavController, message: String) {
+fun DetailScreen(
+    navController: NavController,
+    message: String
+) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
         Text("Detail Screen", style = MaterialTheme.typography.headlineMedium)
